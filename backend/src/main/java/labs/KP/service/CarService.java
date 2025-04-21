@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Car;
 import labs.KP.pojo.CarPojo;
 import labs.KP.repository.CarRepository;
@@ -17,6 +18,11 @@ public class CarService {
     private CarRepository carRepository;
 
     public CarPojo create(CarPojo pojo) {
+        List<CarPojo> findCarPojo = search(null,null,null,pojo.getLicensePlateNumber());
+        if(!findCarPojo.isEmpty())
+        {
+            return null;
+        }
         Car car = CarPojo.toEntity(pojo);
         Car saved = carRepository.save(car);
         return CarPojo.fromEntity(saved);
@@ -41,40 +47,16 @@ public class CarService {
         Car updated = carRepository.save(car);
         return CarPojo.fromEntity(updated);
     }
-
+    @Transactional
     public void deleteById(Integer id) {
         carRepository.deleteById(id);
     }
-
-    public List<CarPojo> findByMark(String mark) {
-        List<Car> cars = carRepository.findByMark(mark);
+    public List<CarPojo> search(String mark, String model, Integer year, String plate) {
+        List<Car> cars = carRepository.searchCars(mark, model, year, plate);
         List<CarPojo> pojos = new ArrayList<>();
         for (Car car : cars) {
             pojos.add(CarPojo.fromEntity(car));
         }
         return pojos;
-    }
-
-    public List<CarPojo> findByModel(String model) {
-        List<Car> cars = carRepository.findByModel(model);
-        List<CarPojo> pojos = new ArrayList<>();
-        for (Car car : cars) {
-            pojos.add(CarPojo.fromEntity(car));
-        }
-        return pojos;
-    }
-
-    public List<CarPojo> findByYearOfProduction(Integer yearOfProduction) {
-        List<Car> cars = carRepository.findByYearOfProduction(yearOfProduction);
-        List<CarPojo> pojos = new ArrayList<>();
-        for (Car car : cars) {
-            pojos.add(CarPojo.fromEntity(car));
-        }
-        return pojos;
-    }
-
-    public CarPojo findByLicensePlateNumber(String licensePlateNumber) {
-        Optional<Car> car = carRepository.findByLicensePlateNumber(licensePlateNumber);
-        return CarPojo.fromEntity(car.orElse(null));
     }
 }

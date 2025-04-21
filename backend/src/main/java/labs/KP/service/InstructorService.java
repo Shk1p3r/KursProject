@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Category;
 import labs.KP.entity.Instructor;
 import labs.KP.pojo.CategoryPojo;
@@ -40,13 +41,13 @@ public class InstructorService {
         Instructor updated = instructorRepository.save(instructor);
         return InstructorPojo.fromEntity(updated);
     }
-
+    @Transactional
     public void deleteById(Integer id) {
         instructorRepository.deleteById(id);
     }
 
     public List<InstructorPojo> findByFio(String fio) {
-        List<Instructor> instructors = instructorRepository.findByFio(fio);
+        List<Instructor> instructors = instructorRepository.findByFioContainingIgnoreCase(fio);
         List<InstructorPojo> pojos = new ArrayList<>();
         for (Instructor instructor : instructors) {
             pojos.add(InstructorPojo.fromEntity(instructor));

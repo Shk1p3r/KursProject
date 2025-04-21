@@ -11,7 +11,7 @@ import labs.KP.pojo.LessonPojo;
 import labs.KP.service.LessonService;
 
 @RestController
-@RequestMapping("/api/lesson")
+@RequestMapping("/api/lessons")
 public class LessonController {
     @Autowired
     private LessonService lessonService;

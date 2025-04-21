@@ -1,1 +1,17 @@
-<p>category-list works!</p>
+<h2>Список категорий</h2>
+<a routerLink="/categories/new">Добавить новую категорию</a>
+<div>
+  <label>Название:</label>
+  <input [(ngModel)]="filterName" name="name" />
+
+  <button (click)="getCategoryByName()">Поиск</button>
+  <button (click)="loadCategories()">Сбросить</button>
+</div>
+<div>
+  <li *ngFor="let category of categories">
+    <a>Название: {{ category.name }}</a>
+    <div>
+        <button (click)="deleteCategory(category.name)">Удалить</button>
+      </div>
+  </li>
+</div>

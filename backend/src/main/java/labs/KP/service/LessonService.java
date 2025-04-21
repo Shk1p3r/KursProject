@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Lesson;
 import labs.KP.pojo.CarPojo;
 import labs.KP.pojo.InstructorPojo;
@@ -45,7 +46,7 @@ public class LessonService {
         Lesson updated = lessonRepository.save(lesson);
         return LessonPojo.fromEntity(updated);
     }
-
+    @Transactional
     public void deleteById(Integer id) {
         lessonRepository.deleteById(id);
     }

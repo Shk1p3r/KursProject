@@ -9,7 +9,7 @@ import labs.KP.entity.Category;
 import labs.KP.entity.Instructor;
 @Repository
 public interface InstructorRepository extends JpaRepository<Instructor, Integer>{
-    List<Instructor> findByFio(String fio);
+    List<Instructor> findByFioContainingIgnoreCase(String fio);
     List<Instructor> findBySeniority(Integer seniority);
     List<Instructor> findByCategory(Category category);
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Category;
 import labs.KP.pojo.CategoryPojo;
 import labs.KP.repository.CategoryRepository;
@@ -36,6 +37,7 @@ public class CategoryService {
         Category updated = categoryRepository.save(category);
         return CategoryPojo.fromEntity(updated);
     }
+    @Transactional
     public void deleteById(String name) {
         categoryRepository.deleteById(name);
     }

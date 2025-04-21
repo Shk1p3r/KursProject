@@ -1,0 +1,12 @@
+<h2>{{ isNew ? 'Создание категории' : 'Редактирование категории' }}</h2>
+
+<form (ngSubmit)="saveCategory()">
+  <div>Название:</div>
+  <input [(ngModel)]="category.name" name="name" required />
+  <div style="margin-top: 10px;">
+    <button type="submit" [disabled]="!category.name">
+      Сохранить
+    </button>
+    <a routerLink="/categories">Отмена</a>
+  </div>
+</form>

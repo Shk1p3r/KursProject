@@ -11,13 +11,18 @@ import labs.KP.pojo.CarPojo;
 import labs.KP.service.CarService;
 
 @RestController
-@RequestMapping("/api/car")
+@RequestMapping("/api/cars")
 public class CarController {
     @Autowired
     private CarService carService;
     @PostMapping
-    public ResponseEntity<CarPojo> create(@RequestBody CarPojo pojo) {
-        return new ResponseEntity<>(carService.create(pojo), HttpStatus.OK);
+    public ResponseEntity<?> create(@RequestBody CarPojo pojo) {
+        CarPojo car = carService.create(pojo);
+        if(car == null)
+        {
+            return new ResponseEntity<>("Автомобиль с таким номерным знаком существует", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -48,28 +53,14 @@ public class CarController {
         carService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @GetMapping("/mark/{mark}")
-    public ResponseEntity<List<CarPojo>> findByMark(@PathVariable String mark) {
-        return new ResponseEntity<>(carService.findByMark(mark), HttpStatus.OK);
-    }
-
-    @GetMapping("/model/{model}")
-    public ResponseEntity<List<CarPojo>> findByModel(@PathVariable String model) {
-        return new ResponseEntity<>(carService.findByModel(model), HttpStatus.OK);
-    }
-
-    @GetMapping("/year/{year}")
-    public ResponseEntity<List<CarPojo>> findByYear(@PathVariable Integer year) {
-        return new ResponseEntity<>(carService.findByYearOfProduction(year), HttpStatus.OK);
-    }
-
-    @GetMapping("/plate/{plate}")
-    public ResponseEntity<?> findByPlate(@PathVariable String plate) {
-        CarPojo car = carService.findByLicensePlateNumber(plate);
-        if (car == null) { 
-            return new ResponseEntity<>("Автомобиль не найден", HttpStatus.NOT_FOUND);
+    @GetMapping("/search")
+    public ResponseEntity<List<CarPojo>> searchCars(@RequestParam(required = false) String mark,@RequestParam(required = false) String model,@RequestParam(required = false) Integer year,@RequestParam(required = false) String plate) {
+        List<CarPojo> cars = carService.search(mark, model, year, plate);
+        if(cars==null)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(car, HttpStatus.OK);
+        return new ResponseEntity<>(cars, HttpStatus.OK);
     }
+
 }

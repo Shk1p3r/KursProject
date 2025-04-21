@@ -23,6 +23,6 @@ public class Car {
     private int yearOfProduction;
     @Column(name = "license_plate_number", unique = true)
     private String licensePlateNumber;
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons;
 }

@@ -1,0 +1,24 @@
+<h2>{{ isNew ? 'Создание автомобиля' : 'Редактирование автомобиля' }}</h2>
+
+<form (ngSubmit)="saveCar()">
+  <div>ID: {{ car.id }}</div>
+
+  <div>Марка:</div>
+  <input [(ngModel)]="car.mark" name="mark" required />
+
+  <div>Модель:</div>
+  <input [(ngModel)]="car.model" name="model" required />
+
+  <div>Год выпуска:</div>
+  <input type="number" [(ngModel)]="car.yearOfProduction" name="year" required />
+
+  <div>Номерной знак:</div>
+  <input [(ngModel)]="car.licensePlateNumber" name="plate" required />
+
+  <div style="margin-top: 10px;">
+    <button type="submit" [disabled]="!car.mark || !car.model || !car.yearOfProduction || !car.licensePlateNumber">
+      Сохранить
+    </button>
+    <a routerLink="/cars">Отмена</a>
+  </div>
+</form>

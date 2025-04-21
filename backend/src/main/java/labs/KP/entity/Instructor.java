@@ -22,6 +22,6 @@ public class Instructor {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "name_category", referencedColumnName = "name_category")
     private Category category;
-    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Lesson> lessons;
 }

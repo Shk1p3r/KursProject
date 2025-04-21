@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Exam;
 import labs.KP.pojo.ExamPojo;
 import labs.KP.pojo.StudentPojo;
@@ -42,7 +43,7 @@ public class ExamService {
         Exam updated = examRepository.save(exam);
         return ExamPojo.fromEntity(updated);
     }
-
+    @Transactional
     public void deleteById(Integer id) {
         examRepository.deleteById(id);
     }
@@ -57,7 +58,7 @@ public class ExamService {
     }
 
     public List<ExamPojo> findByTypeOfExams(String typeOfExams) {
-        List<Exam> exams = examRepository.findByTypeOfExams(typeOfExams);
+        List<Exam> exams = examRepository.findByTypeOfExamsContainingIgnoreCase(typeOfExams);
         List<ExamPojo> pojos = new ArrayList<>();
         for (Exam exam : exams) {
             pojos.add(ExamPojo.fromEntity(exam));
@@ -66,7 +67,7 @@ public class ExamService {
     }
 
     public List<ExamPojo> findByResult(String result) {
-        List<Exam> exams = examRepository.findByResult(result);
+        List<Exam> exams = examRepository.findByResultContainingIgnoreCase(result);
         List<ExamPojo> pojos = new ArrayList<>();
         for (Exam exam : exams) {
             pojos.add(ExamPojo.fromEntity(exam));

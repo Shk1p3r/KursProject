@@ -12,7 +12,7 @@ import labs.KP.pojo.ExamPojo;
 import labs.KP.service.ExamService;
 
 @RestController
-@RequestMapping("/api/exam")
+@RequestMapping("/api/exams")
 public class ExamController {
     @Autowired
     private ExamService examService;

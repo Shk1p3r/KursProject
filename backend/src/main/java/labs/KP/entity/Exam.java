@@ -22,7 +22,7 @@ public class Exam {
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_student", referencedColumnName = "id_student")
     private Student student;
 }

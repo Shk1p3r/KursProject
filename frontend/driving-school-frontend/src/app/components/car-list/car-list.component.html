@@ -1,1 +1,32 @@
-<p>car-list works!</p>
+<h2>Список автомобилей</h2>
+<a routerLink="/cars/new">Добавить новый автомобиль</a>
+<div>
+  <label>Марка:</label>
+  <input [(ngModel)]="filterMark" name="mark" />
+
+  <label>Модель:</label>
+  <input [(ngModel)]="filterModel" name="model" />
+
+  <label>Год:</label>
+  <input type="number" [(ngModel)]="filterYear" name="year" />
+
+  <label>Номерной знак:</label>
+  <input [(ngModel)]="filterPlate" name="plate" />
+
+  <button (click)="searchCars()">Поиск</button>
+  <button (click)="loadCars()">Сбросить</button>
+</div>
+<div>
+  <li *ngFor="let car of cars">
+    <a>Марка: {{ car.mark }}</a>
+    <div>Модель: {{ car.model }}</div>
+    <div>Год выпуска: {{car.yearOfProduction}}</div>
+    <div>Номерной знак: {{car.licensePlateNumber}}</div>
+    <div>
+        <button (click)="deleteCar(car.id)">Удалить</button>
+      </div>
+      <div>
+        <button (click)="editCar(car.id)">Редактировать</button>
+      </div>
+  </li>
+</div>

@@ -12,7 +12,7 @@ import labs.KP.pojo.StudentPojo;
 import labs.KP.service.StudentService;
 
 @RestController
-@RequestMapping("/api/student")
+@RequestMapping("/api/students")
 public class StudentController {
     @Autowired
     private StudentService studentService;

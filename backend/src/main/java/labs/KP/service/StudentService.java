@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import labs.KP.entity.Student;
 import labs.KP.pojo.StudentPojo;
 import labs.KP.repository.StudentRepository;
@@ -38,7 +39,7 @@ public class StudentService {
         Student updated = studentRepository.save(student);
         return StudentPojo.fromEntity(updated);
     }
-
+    @Transactional
     public void deleteById(Integer id) {
         studentRepository.deleteById(id);
     }
@@ -51,7 +52,7 @@ public class StudentService {
         return pojos;
     }
     public List<StudentPojo> findByFio(String fio) {
-        List<Student> students = studentRepository.findByFio(fio);
+        List<Student> students = studentRepository.findByFioContainingIgnoreCase(fio);
         List<StudentPojo> pojos = new ArrayList<>();
         for (Student student : students) {
             pojos.add(StudentPojo.fromEntity(student));
@@ -59,7 +60,7 @@ public class StudentService {
         return pojos;
     }
     public List<StudentPojo> findByPhone(String phone) {
-        List<Student> students = studentRepository.findByPhone(phone);
+        List<Student> students = studentRepository.findByPhoneContainingIgnoreCase(phone);
         List<StudentPojo> pojos = new ArrayList<>();
         for (Student student : students) {
             pojos.add(StudentPojo.fromEntity(student));
@@ -67,7 +68,7 @@ public class StudentService {
         return pojos;
     }
     public List<StudentPojo> findByGroupNumber(String groupNumber) {
-        List<Student> students = studentRepository.findByGroupNumber(groupNumber);
+        List<Student> students = studentRepository.findByGroupNumberContainingIgnoreCase(groupNumber);
         List<StudentPojo> pojos = new ArrayList<>();
         for (Student student : students) {
             pojos.add(StudentPojo.fromEntity(student));

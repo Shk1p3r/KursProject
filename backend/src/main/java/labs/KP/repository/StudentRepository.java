@@ -10,7 +10,7 @@ import labs.KP.entity.Student;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer>{
     List<Student> findByDateOfBirth(Date dateOfBirth);
-    List<Student> findByFio(String fio);
-    List<Student> findByPhone(String phone);
-    List<Student> findByGroupNumber(String groupNumber);
+    List<Student> findByFioContainingIgnoreCase(String fio);
+    List<Student> findByPhoneContainingIgnoreCase(String phone);
+    List<Student> findByGroupNumberContainingIgnoreCase(String groupNumber);
 }
