@@ -8,15 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import labs.KP.entity.Car;
-import labs.KP.entity.Instructor;
 import labs.KP.entity.Lesson;
-import labs.KP.entity.Student;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer>{
-    List<Lesson> findByStudent(Student student);
-    List<Lesson> findByInstructor(Instructor instructor);
-    List<Lesson> findByCar(Car car);
+    List<Lesson> findByCarId(Integer carId);
     @Query("""
     SELECT t FROM Lesson t
     WHERE t.startDate >= :startDate AND t.endDate <= :endDate

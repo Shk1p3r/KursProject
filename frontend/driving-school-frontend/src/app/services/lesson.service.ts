@@ -31,4 +31,10 @@ export class LessonService {
   deleteLesson(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  searchLessons(startDate: string, endDate: string): Observable<Lesson[]> {
+    const params: any = {};
+    if (startDate) params['startDate'] = startDate;
+    if (endDate) params['endDate'] = endDate;
+    return this.http.get<Lesson[]>(`${this.apiUrl}/search`, { params });
+  }
 }

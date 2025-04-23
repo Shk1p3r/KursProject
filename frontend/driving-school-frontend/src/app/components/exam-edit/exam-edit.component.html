@@ -1,1 +1,15 @@
-<p>exam-edit works!</p>
+<h2>{{ exam.id ? 'Редактировать экзамен' : 'Добавить экзамен' }}</h2>
+
+<form>
+  <label>Дата:</label>
+  <input type="date" [(ngModel)]="exam.date" name="date" />
+
+  <label>Тип:</label>
+  <input [(ngModel)]="exam.typeOfExams" name="typeOfExams" />
+
+  <label>Результат:</label>
+  <input [(ngModel)]="exam.result" name="result" />
+
+  <button (click)="saveExam()"><i class="fas fa-save"></i> Сохранить</button>
+  <a routerLink="/exams"><i class="fas fa-times"></i> Отмена</a>
+</form>

@@ -1,5 +1,6 @@
 package labs.KP.entity;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -16,6 +17,7 @@ public class Student {
     @Column(name = "id_student")
     private int id;
     @Column(name = "date_of_birth")
+    @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     @Column(name = "fio")
     private String fio;
@@ -23,8 +25,8 @@ public class Student {
     private String phone;
     @Column(name = "group_number")
     private String groupNumber;
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Lesson> lessons;
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Exam> exams;
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Lesson> lessons= new ArrayList<>();
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Exam> exams= new ArrayList<>();
 }

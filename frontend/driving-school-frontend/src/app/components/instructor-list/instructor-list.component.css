@@ -1,0 +1,70 @@
+/* Общий стиль формы и списков */
+form, .list-container, .filter-container {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  input, select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin-top: 5px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #007bff;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f1f1f1;
+    margin-top: 10px;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  li {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 5px;
+  }
+  ul, li {
+    list-style: none;
+  }
+  

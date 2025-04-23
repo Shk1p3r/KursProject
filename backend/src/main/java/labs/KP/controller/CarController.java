@@ -39,7 +39,7 @@ public class CarController {
         return new ResponseEntity<>(carService.findAll(), HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<CarPojo> update(@RequestBody CarPojo pojo) {
         return new ResponseEntity<>(carService.update(pojo), HttpStatus.OK);
     }
@@ -54,11 +54,11 @@ public class CarController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<CarPojo>> searchCars(@RequestParam(required = false) String mark,@RequestParam(required = false) String model,@RequestParam(required = false) Integer year,@RequestParam(required = false) String plate) {
+    public ResponseEntity<?> searchCars(@RequestParam(required = false) String mark,@RequestParam(required = false) String model,@RequestParam(required = false) Integer year,@RequestParam(required = false) String plate) {
         List<CarPojo> cars = carService.search(mark, model, year, plate);
         if(cars==null)
         {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Автомобиль не найден", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(cars, HttpStatus.OK);
     }

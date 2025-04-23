@@ -32,19 +32,12 @@ export class StudentService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getStudentsByFio(fio: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.apiUrl}/fio/${fio}`);
-  }
-
-  getStudentsByPhone(phone: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.apiUrl}/phone/${phone}`);
-  }
-
-  getStudentsByGroupNumber(groupNumber: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.apiUrl}/group/${groupNumber}`);
-  }
-
-  getStudentsByDateOfBirth(dateOfBirth: string): Observable<Student[]> {
-    return this.http.get<Student[]>(`${this.apiUrl}/dateOfBirth/${dateOfBirth}`);
+  searchStudents(dateOfBirth?: string, fio?: string, phone?: string, groupNumber?: string): Observable<Student[]> {
+    const params: any = {};
+    if (dateOfBirth) params.dateOfBirth = dateOfBirth;
+    if (fio) params.fio = fio;
+    if (phone) params.phone = phone;
+    if (groupNumber) params.groupNumber = groupNumber;
+    return this.http.get<Student[]>(`${this.apiUrl}/search`, { params });
   }
 }

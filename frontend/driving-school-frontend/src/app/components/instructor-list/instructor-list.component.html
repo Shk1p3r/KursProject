@@ -1,1 +1,23 @@
-<p>instructor-list works!</p>
+<h2>Список инструкторов</h2>
+<a routerLink="/instructors/new"><i class="fas fa-plus"></i> Добавить нового инструктора</a>
+
+<div class="list-container">
+  <li *ngFor="let instructor of instructors" class="list-item">
+    <div><strong>ФИО:</strong> {{ instructor.fio }}</div>
+    <div><strong>Опыт:</strong> {{ instructor.seniority }} лет</div>
+    <div><strong>Категория:</strong> {{ instructor.category }}</div>
+
+    <div *ngIf="instructor.lessons?.length">
+      <div><strong>Уроки:</strong></div>
+      <div *ngFor="let lesson of instructor.lessons" class="nested-item">
+        {{ lesson.startDate }} – {{lesson.endDate}}
+      </div>
+    </div>
+    <div *ngIf="!instructor.lessons || instructor.lessons.length === 0">
+      <div>Нет уроков</div>
+    </div>
+
+    <button (click)="deleteInstructor(instructor.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button (click)="editInstructor(instructor.id)"><i class="fas fa-edit"></i> Редактировать</button>
+  </li>
+</div>

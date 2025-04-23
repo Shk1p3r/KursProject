@@ -1,1 +1,14 @@
-<p>lesson-edit works!</p>
+<h2>{{ isNew ? 'Создание урока' : 'Редактирование урока' }}</h2>
+
+<form (ngSubmit)="saveLesson()">
+  <label>Дата начала:</label>
+  <input type="date" [(ngModel)]="lesson.startDate" name="startDate" required />
+
+  <label>Дата окончания:</label>
+  <input type="date" [(ngModel)]="lesson.endDate" name="endDate" required />
+
+  <button type="submit" [disabled]="!lesson.startDate || !lesson.endDate">
+    <i class="fas fa-save"></i> Сохранить
+  </button>
+  <a routerLink="/lessons"><i class="fas fa-times"></i> Отмена</a>
+</form>

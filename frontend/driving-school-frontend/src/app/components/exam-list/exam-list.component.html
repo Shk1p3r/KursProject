@@ -1,1 +1,28 @@
-<p>exam-list works!</p>
+<h2>Список экзаменов</h2>
+<a routerLink="/exams/new"><i class="fas fa-plus"></i> Добавить новый экзамен</a>
+
+<div class="filter-container">
+  <label>Тип:</label>
+  <input [(ngModel)]="filterType" name="typeOfExams" />
+
+  <label>Результат:</label>
+  <input [(ngModel)]="filterResult" name="result" />
+
+  <label>Дата:</label>
+  <input type="date" [(ngModel)]="filterDate" name="date" />
+
+  <button (click)="searchExams()"><i class="fas fa-search"></i> Поиск</button>
+  <button (click)="loadExams()"><i class="fas fa-sync"></i> Сбросить</button>
+</div>
+
+<div class="list-container">
+  <li *ngFor="let exam of exams" class="list-item">
+    <div><strong>Тип:</strong> {{ exam.typeOfExams }}</div>
+    <div><strong>Результат:</strong> {{ exam.result }}</div>
+    <div><strong>Дата:</strong> {{ exam.date }}</div>
+    <div><strong>Студент:</strong> {{ exam.studentId }}</div>
+
+    <button (click)="deleteExam(exam.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button (click)="editExam(exam.id)"><i class="fas fa-edit"></i> Редактировать</button>
+  </li>
+</div>

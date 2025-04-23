@@ -5,5 +5,5 @@ export interface Exam {
   typeOfExams: string;
   result: string;
   date: string;
-  student: Student;
+  studentId: number;
 }

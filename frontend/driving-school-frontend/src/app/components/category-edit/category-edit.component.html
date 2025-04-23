@@ -1,12 +1,35 @@
 <h2>{{ isNew ? 'Создание категории' : 'Редактирование категории' }}</h2>
 
 <form (ngSubmit)="saveCategory()">
-  <div>Название:</div>
-  <input [(ngModel)]="category.name" name="name" required />
-  <div style="margin-top: 10px;">
+  <label>Название: {{category.name}}</label>
+  
+
+  <label>Выберите инструктора:</label>
+  <select [(ngModel)]="selectedInstructor" name="instructor">
+    <option *ngFor="let instructor of availableInstructors" [ngValue]="instructor">
+      {{ instructor.fio }} (стаж: {{ instructor.seniority }} лет)
+    </option>
+  </select>
+  <button type="button" (click)="addInstructor()" [disabled]="!selectedInstructor">
+    <i class="fas fa-plus"></i> Добавить
+  </button>
+
+  <div>
+    <h4>Добавленные инструкторы:</h4>
+    <ul>
+      <li *ngFor="let instructor of category.instructors">
+        ID: {{ instructor.id }}, ФИО: {{ instructor.fio }}, Стаж: {{ instructor.seniority }} лет
+        <button type="button" (click)="removeInstructor(instructor.id)">
+          <i class="fas fa-trash"></i> Удалить
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="form-actions">
     <button type="submit" [disabled]="!category.name">
-      Сохранить
+      <i class="fas fa-save"></i> Сохранить
     </button>
-    <a routerLink="/categories">Отмена</a>
+    <a routerLink="/categories"><i class="fas fa-times"></i> Отмена</a>
   </div>
 </form>

@@ -1,1 +1,30 @@
-<p>instructor-edit works!</p>
+<h2>{{ instructor.id ? 'Редактировать инструктора' : 'Добавить инструктора' }}</h2>
+
+<form (ngSubmit)="saveInstructor()">
+  <label>ФИО:</label>
+  <input [(ngModel)]="instructor.fio" name="fio" required />
+
+  <label>Опыт (в годах):</label>
+  <input [(ngModel)]="instructor.seniority" name="seniority" type="number" required />
+
+  <label>Добавить урок:</label>
+  <select [(ngModel)]="selectedLesson" name="lesson">
+    <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
+      {{ lesson.id }} ({{ lesson.startDate }} – {{ lesson.endDate }})
+    </option>
+  </select>
+  <button type="button" (click)="addLesson()" [disabled]="!selectedLesson"><i class="fas fa-plus"></i> Добавить</button>
+
+  <div>
+    <h4>Закреплённые уроки:</h4>
+    <div *ngFor="let lesson of instructor.lessons" class="nested-item">
+      Урок №{{ lesson.id }}: {{ lesson.startDate }} – {{ lesson.endDate }}
+      <button type="button" (click)="removeLesson(lesson.id)">
+        <i class="fas fa-trash"></i> Удалить
+      </button>
+    </div>
+  </div>
+
+  <button type="submit"><i class="fas fa-save"></i> Сохранить</button>
+  <a routerLink="/instructors"><i class="fas fa-times"></i> Отмена</a>
+</form>

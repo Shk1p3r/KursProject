@@ -1,1 +1,37 @@
-<p>student-list works!</p>
+<h2>Список студентов</h2>
+<a routerLink="/students/new"><i class="fas fa-plus"></i> Добавить нового студента</a>
+
+<div class="filter-container">
+  <label>ФИО:</label>
+  <input [(ngModel)]="filterFio" name="fio" />
+  <label>Телефон:</label>
+  <input [(ngModel)]="filterPhone" name="phone" />
+  <label>Группа:</label>
+  <input [(ngModel)]="filterGroupNumber" name="groupNumber" />
+  <label>Дата рождения:</label>
+  <input type="date" [(ngModel)]="filterDateOfBirth" name="dateOfBirth" />
+  <button (click)="searchStudents()"><i class="fas fa-search"></i> Поиск</button>
+  <button (click)="loadStudents()"><i class="fas fa-sync"></i> Сбросить</button>
+</div>
+
+<div class="list-container">
+  <li *ngFor="let student of students" class="list-item">
+    <div><strong>ФИО:</strong> {{ student.fio }}</div>
+    <div><strong>Телефон:</strong> {{ student.phone }}</div>
+    <div><strong>Группа:</strong> {{ student.groupNumber }}</div>
+    <div><strong>Дата рождения:</strong> {{ student.dateOfBirth }}</div>
+
+    <div><strong>Экзамены:</strong></div>
+    <div *ngFor="let exam of student.exams" class="nested-item">
+      {{ exam.date }} - {{ exam.typeOfExams }} - {{ exam.result }}
+    </div>
+
+    <div><strong>Уроки:</strong></div>
+    <div *ngFor="let lesson of student.lessons" class="nested-item">
+      {{ lesson.startDate }} - {{ lesson.endDate }}
+    </div>
+
+    <button (click)="deleteStudent(student.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button (click)="editStudent(student.id)"><i class="fas fa-edit"></i> Редактировать</button>
+  </li>
+</div>

@@ -1,7 +1,6 @@
 package labs.KP.entity;
 
 import java.sql.Date;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +21,7 @@ public class Exam {
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_student", referencedColumnName = "id_student")
     private Student student;
 }

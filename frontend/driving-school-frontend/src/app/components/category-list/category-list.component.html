@@ -1,17 +1,23 @@
 <h2>Список категорий</h2>
-<a routerLink="/categories/new">Добавить новую категорию</a>
-<div>
+<a routerLink="/categories/new"><i class="fas fa-plus"></i> Добавить новую категорию</a>
+
+<div class="filter-container">
   <label>Название:</label>
   <input [(ngModel)]="filterName" name="name" />
-
-  <button (click)="getCategoryByName()">Поиск</button>
-  <button (click)="loadCategories()">Сбросить</button>
+  <button (click)="getCategoryByName()"><i class="fas fa-search"></i> Поиск</button>
+  <button (click)="loadCategories()"><i class="fas fa-sync"></i> Сбросить</button>
 </div>
-<div>
+
+<div class="list-container">
   <li *ngFor="let category of categories">
-    <a>Название: {{ category.name }}</a>
-    <div>
-        <button (click)="deleteCategory(category.name)">Удалить</button>
-      </div>
+    <div><strong>Название:</strong> {{ category.name }}</div>
+    <div><strong>Инструкторы:</strong></div>
+    <ul>
+      <li *ngFor="let instructor of category.instructors">
+        ID: {{ instructor.id }}, ФИО: {{ instructor.fio }}, Стаж: {{ instructor.seniority }} лет
+      </li>
+    </ul>
+    <button (click)="editCategory(category.name)"><i class="fas fa-edit"></i> Редактировать</button>
+    <button (click)="deleteCategory(category.name)"><i class="fas fa-trash"></i> Удалить</button>
   </li>
 </div>

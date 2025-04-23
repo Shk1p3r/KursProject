@@ -1,4 +1,5 @@
 package labs.KP.entity;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -22,6 +23,6 @@ public class Instructor {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "name_category", referencedColumnName = "name_category")
     private Category category;
-    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Lesson> lessons;
+    @OneToMany(mappedBy = "instructor", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Lesson> lessons = new ArrayList<>();
 }

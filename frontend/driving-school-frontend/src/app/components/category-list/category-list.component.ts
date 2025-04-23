@@ -36,5 +36,8 @@ export class CategoryListComponent implements OnInit{
       this.categories = [categories];
       });
   }
+  editCategory(name: string) {
+    this.router.navigate(['/categories', name]);
+  }
 
 }

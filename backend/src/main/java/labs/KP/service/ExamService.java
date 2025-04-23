@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 import labs.KP.entity.Exam;
 import labs.KP.pojo.ExamPojo;
-import labs.KP.pojo.StudentPojo;
 import labs.KP.repository.ExamRepository;
 
 @Service
@@ -47,36 +46,9 @@ public class ExamService {
     public void deleteById(Integer id) {
         examRepository.deleteById(id);
     }
-
-    public List<ExamPojo> findByDate(Date date) {
-        List<Exam> exams = examRepository.findByDate(date);
-        List<ExamPojo> pojos = new ArrayList<>();
-        for (Exam exam : exams) {
-            pojos.add(ExamPojo.fromEntity(exam));
-        }
-        return pojos;
-    }
-
-    public List<ExamPojo> findByTypeOfExams(String typeOfExams) {
-        List<Exam> exams = examRepository.findByTypeOfExamsContainingIgnoreCase(typeOfExams);
-        List<ExamPojo> pojos = new ArrayList<>();
-        for (Exam exam : exams) {
-            pojos.add(ExamPojo.fromEntity(exam));
-        }
-        return pojos;
-    }
-
-    public List<ExamPojo> findByResult(String result) {
-        List<Exam> exams = examRepository.findByResultContainingIgnoreCase(result);
-        List<ExamPojo> pojos = new ArrayList<>();
-        for (Exam exam : exams) {
-            pojos.add(ExamPojo.fromEntity(exam));
-        }
-        return pojos;
-    }
-
-    public List<ExamPojo> findByStudent(StudentPojo studentPojo) {
-        List<Exam> exams = examRepository.findByStudent(StudentPojo.toEntity(studentPojo));
+    public List<ExamPojo> search(Date date, String typeOfExams, String result)
+    {
+        List<Exam> exams = examRepository.searchExams(date, typeOfExams, result);
         List<ExamPojo> pojos = new ArrayList<>();
         for (Exam exam : exams) {
             pojos.add(ExamPojo.fromEntity(exam));

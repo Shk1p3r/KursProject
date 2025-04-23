@@ -1,6 +1,5 @@
 package labs.KP.entity;
 import java.sql.Date;
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,13 +20,13 @@ public class Lesson {
     @Column(name = "end_date")
     private Date endDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_student", referencedColumnName = "id_student")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "id_student", referencedColumnName = "id_student", nullable = true)
     private Student student;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_instructor", referencedColumnName = "id_instructor")
+    @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "id_instructor", referencedColumnName = "id_instructor", nullable = true)
     private Instructor instructor;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_car", referencedColumnName = "id_car")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "id_car", referencedColumnName = "id_car", nullable = true)
     private Car car;
 }

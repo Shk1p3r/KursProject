@@ -50,13 +50,13 @@ public class InstructorController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/fio/{fio}")
-    public ResponseEntity<List<InstructorPojo>> findByFio(@PathVariable String fio) {
-        return new ResponseEntity<>(instructorService.findByFio(fio), HttpStatus.OK);
-    }
-
-    @GetMapping("/seniority/{seniority}")
-    public ResponseEntity<List<InstructorPojo>> findBySeniority(@PathVariable Integer seniority) {
-        return new ResponseEntity<>(instructorService.findBySeniority(seniority), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(required = false) String fio, @RequestParam(required = false) Integer seniority) {
+        List<InstructorPojo> instructors =instructorService.search(fio, seniority);
+        if(instructors == null)
+        {
+            return new ResponseEntity<>("Инструктор не найден", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(instructors, HttpStatus.OK);
     }
 }

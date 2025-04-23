@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Instructor } from '../interfaces/instructor';
+import { Category } from '../interfaces/category';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InstructorService {
   private apiUrl = `${environment.apiUrl}/instructors`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   createInstructor(instructor: Instructor): Observable<Instructor> {
     return this.http.post<Instructor>(this.apiUrl, instructor);
   }
@@ -30,12 +31,10 @@ export class InstructorService {
   deleteInstructor(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-
-  getInstructorsByFio(fio: string): Observable<Instructor[]> {
-    return this.http.get<Instructor[]>(`${this.apiUrl}/fio/${fio}`);
-  }
-
-  getInstructorsBySeniority(seniority: number): Observable<Instructor[]> {
-    return this.http.get<Instructor[]>(`${this.apiUrl}/seniority/${seniority}`);
+  searchInstructors(fio: string, seniority: number | null): Observable<Instructor[]> {
+    const params: any = {};
+    if (fio) params['fio'] = fio;
+    if (seniority != null) params['seniority'] = seniority;
+    return this.http.get<Instructor[]>(`${this.apiUrl}/search`, { params });
   }
 }

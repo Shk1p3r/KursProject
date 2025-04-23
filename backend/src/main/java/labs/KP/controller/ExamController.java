@@ -50,18 +50,13 @@ public class ExamController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/date/{date}")
-    public ResponseEntity<List<ExamPojo>> findByDate(@PathVariable Date date) {
-        return new ResponseEntity<>(examService.findByDate(date), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(required = false) Date date, @RequestParam(required = false) String type, @RequestParam(required = false) String result) {
+        List<ExamPojo> exams = examService.search(date, type, result);
+        if(exams == null) {
+            return new ResponseEntity<>("Экзамен не найден", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(exams, HttpStatus.OK);
     }
 
-    @GetMapping("/type/{type}")
-    public ResponseEntity<List<ExamPojo>> findByType(@PathVariable String type) {
-        return new ResponseEntity<>(examService.findByTypeOfExams(type), HttpStatus.OK);
-    }
-
-    @GetMapping("/result/{result}")
-    public ResponseEntity<List<ExamPojo>> findByResult(@PathVariable String result) {
-        return new ResponseEntity<>(examService.findByResult(result), HttpStatus.OK);
-    }
 }

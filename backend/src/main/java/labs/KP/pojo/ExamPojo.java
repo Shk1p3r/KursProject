@@ -1,7 +1,7 @@
 package labs.KP.pojo;
 import java.sql.Date;
-
 import labs.KP.entity.Exam;
+import labs.KP.entity.Student;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ public class ExamPojo {
     private String typeOfExams;
     private String result;
     private Date date;
-    private StudentPojo student;
+    private Integer studentId;
     public static ExamPojo fromEntity(Exam exam) {
         if (exam == null) {
             return null;
@@ -22,7 +22,7 @@ public class ExamPojo {
         pojo.setTypeOfExams(exam.getTypeOfExams());
         pojo.setResult(exam.getResult());
         pojo.setDate(exam.getDate());
-        pojo.setStudent(StudentPojo.fromEntity(exam.getStudent()));
+        if (exam.getStudent() != null) pojo.setStudentId((exam.getStudent().getId()));
         return pojo;
     }
     public static Exam toEntity(ExamPojo pojo) {
@@ -34,7 +34,11 @@ public class ExamPojo {
         exam.setTypeOfExams(pojo.getTypeOfExams());
         exam.setResult(pojo.getResult());
         exam.setDate(pojo.getDate());
-        exam.setStudent(StudentPojo.toEntity(pojo.getStudent()));
+        if (pojo.getStudentId() != 0) {
+            Student student = new Student();
+            student.setId(pojo.getStudentId());
+            exam.setStudent(student);
+        }
         return exam;
     }
 }

@@ -1,9 +1,9 @@
-import { Category } from "./category";
+import { Lesson } from "./lesson";
 
 export interface Instructor {
   id: number;
   fio: string;
-  phone: string;
   seniority: number;
-  category: Category;
+  lessons: Lesson[];
+  category: string;
 }

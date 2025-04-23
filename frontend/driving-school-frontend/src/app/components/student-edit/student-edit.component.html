@@ -1,1 +1,56 @@
-<p>student-edit works!</p>
+<h2>{{ isNew ? 'Создание студента' : 'Редактирование студента' }}</h2>
+
+<form (ngSubmit)="saveStudent()">
+  <label>ФИО:</label>
+  <input [(ngModel)]="student.fio" name="fio" required />
+
+  <label>Дата рождения:</label>
+  <input type="date" [(ngModel)]="student.dateOfBirth" name="dateOfBirth" required />
+
+  <label>Номер телефона:</label>
+  <input [(ngModel)]="student.phone" name="phone" required />
+
+  <label>Группа:</label>
+  <input [(ngModel)]="student.groupNumber" name="groupNumber" required />
+
+  <label>Выберите экзамен:</label>
+  <select [(ngModel)]="selectedExam" name="exam">
+    <option *ngFor="let exam of availableExams" [ngValue]="exam">
+      {{ exam.date }} - {{ exam.typeOfExams }}
+    </option>
+  </select>
+  <button type="button" (click)="addExam()" [disabled]="!selectedExam"><i class="fas fa-plus"></i> Добавить экзамен</button>
+
+  <div>
+    <h4>Добавленные экзамены:</h4>
+    <div *ngFor="let exam of student.exams" class="nested-item">
+      {{ exam.date }} - {{ exam.typeOfExams }} - {{ exam.result }}
+      <button type="button" (click)="removeExam(exam.id)">
+        <i class="fas fa-times"></i> Удалить
+      </button>
+    </div>
+  </div>
+
+  <label>Выберите урок:</label>
+  <select [(ngModel)]="selectedLesson" name="lesson">
+    <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
+      {{ lesson.startDate }} - {{ lesson.endDate }}
+    </option>
+  </select>
+  <button type="button" (click)="addLesson()" [disabled]="!selectedLesson"><i class="fas fa-plus"></i> Добавить урок</button>
+
+  <div>
+    <h4>Добавленные уроки:</h4>
+    <div *ngFor="let lesson of student.lessons" class="nested-item">
+      {{ lesson.startDate }} - {{ lesson.endDate }}
+      <button type="button" (click)="removeLesson(lesson.id)">
+        <i class="fas fa-times"></i> Удалить
+      </button>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!student.fio || !student.dateOfBirth || !student.phone || !student.groupNumber">
+    <i class="fas fa-save"></i> Сохранить
+  </button>
+  <a routerLink="/students"><i class="fas fa-times"></i> Отмена</a>
+</form>

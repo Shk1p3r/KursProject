@@ -13,10 +13,10 @@ public interface CarRepository extends JpaRepository<Car, Integer>{
     @Query("""
         SELECT c FROM Car c
         WHERE
-            (:mark IS NULL OR UPPER(c.mark) LIKE CONCAT('%', UPPER(:mark), '%')) AND
-            (:model IS NULL OR UPPER(c.model) LIKE CONCAT('%', UPPER(:model), '%')) AND
-            (:plate IS NULL OR UPPER(c.licensePlateNumber) LIKE CONCAT('%', UPPER(:plate), '%')) AND
+            (:mark IS NULL OR UPPER(c.mark) LIKE CONCAT('%', UPPER(CAST(:mark AS string)), '%')) AND
+            (:model IS NULL OR UPPER(c.model) LIKE CONCAT('%', UPPER(CAST(:model AS string)), '%')) AND
+            (:plate IS NULL OR UPPER(c.licensePlateNumber) LIKE CONCAT('%', UPPER(CAST(:plate AS string)), '%')) AND
             (:year IS NULL OR c.yearOfProduction = :year)
-    """)
+""")
     List<Car> searchCars(@Param("mark") String mark,@Param("model") String model,@Param("year") Integer year,@Param("plate") String plate);
 }

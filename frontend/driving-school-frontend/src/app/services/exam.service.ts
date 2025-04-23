@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Exam } from '../interfaces/exam';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ExamService {
   private apiUrl = `${environment.apiUrl}/exams`;
@@ -30,16 +30,15 @@ export class ExamService {
   deleteExam(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-
-  getExamsByDate(date: string): Observable<Exam[]> {
-    return this.http.get<Exam[]>(`${this.apiUrl}/date/${date}`);
-  }
-
-  getExamsByType(type: string): Observable<Exam[]> {
-    return this.http.get<Exam[]>(`${this.apiUrl}/type/${type}`);
-  }
-
-  getExamsByResult(result: string): Observable<Exam[]> {
-    return this.http.get<Exam[]>(`${this.apiUrl}/result/${result}`);
+  searchExams(
+    date?: string,
+    type?: string,
+    result?: string
+  ): Observable<Exam[]> {
+    let params: any = {};
+    if (date) params.date = date;
+    if (type) params.type = type;
+    if (result) params.result = result;
+    return this.http.get<Exam[]>(`${this.apiUrl}/search`, { params });
   }
 }

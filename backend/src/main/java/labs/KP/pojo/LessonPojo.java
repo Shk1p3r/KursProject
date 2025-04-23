@@ -12,33 +12,25 @@ public class LessonPojo {
     private int id;
     private Date startDate;
     private Date endDate;
-    private StudentPojo student;
-    private InstructorPojo instructor;
-    private CarPojo car;
-    public static LessonPojo fromEntity(Lesson lesson) {
-        if (lesson == null) {
-            return null;
-        }
+    private Integer carId;
+    private Integer studentId;
+    private Integer instructorId;
+   public static LessonPojo fromEntity(Lesson lesson) {
         LessonPojo pojo = new LessonPojo();
         pojo.setId(lesson.getId());
         pojo.setStartDate(lesson.getStartDate());
         pojo.setEndDate(lesson.getEndDate());
-        pojo.setStudent(StudentPojo.fromEntity(lesson.getStudent()));
-        pojo.setInstructor(InstructorPojo.fromEntity(lesson.getInstructor()));
-        pojo.setCar(CarPojo.fromEntity(lesson.getCar()));
+        if (lesson.getCar() != null) pojo.setCarId(lesson.getCar().getId());
+        if (lesson.getStudent() != null) pojo.setStudentId(lesson.getStudent().getId());
+        if (lesson.getInstructor() != null) pojo.setInstructorId(lesson.getInstructor().getId());
         return pojo;
     }
+
     public static Lesson toEntity(LessonPojo pojo) {
-        if (pojo == null) {
-            return null;
-        }
         Lesson lesson = new Lesson();
         lesson.setId(pojo.getId());
         lesson.setStartDate(pojo.getStartDate());
         lesson.setEndDate(pojo.getEndDate());
-        lesson.setStudent(StudentPojo.toEntity(pojo.getStudent()));
-        lesson.setInstructor(InstructorPojo.toEntity(pojo.getInstructor()));
-        lesson.setCar(CarPojo.toEntity(pojo.getCar()));
         return lesson;
     }
 }

@@ -50,23 +50,14 @@ public class StudentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/fio/{fio}")
-    public ResponseEntity<List<StudentPojo>> findByFio(@PathVariable String fio) {
-        return new ResponseEntity<>(studentService.findByFio(fio), HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(required = false) Date dateOfBirth,@RequestParam(required = false) String fio,@RequestParam(required = false) String phone,@RequestParam(required = false) String groupNumber) {
+        List<StudentPojo> students = studentService.search(dateOfBirth, fio, phone, groupNumber);
+        if(students==null)
+        {
+            return new ResponseEntity<>("Студент не найден", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
-    @GetMapping("/phone/{phone}")
-    public ResponseEntity<List<StudentPojo>> findByPhone(@PathVariable String phone) {
-        return new ResponseEntity<>(studentService.findByPhone(phone), HttpStatus.OK);
-    }
-
-    @GetMapping("/group/{groupNumber}")
-    public ResponseEntity<List<StudentPojo>> findByGroup(@PathVariable String groupNumber) {
-        return new ResponseEntity<>(studentService.findByGroupNumber(groupNumber), HttpStatus.OK);
-    }
-
-    @GetMapping("/dateOfBirth/{dateOfBirth}")
-    public ResponseEntity<List<StudentPojo>> findByDateOfBirth(@PathVariable Date dateOfBirth) {
-        return new ResponseEntity<>(studentService.findByDateOfBirth(dateOfBirth), HttpStatus.OK);
-    }
 }
