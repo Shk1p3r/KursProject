@@ -1,7 +1,9 @@
 <h2>Список экзаменов</h2>
-<a routerLink="/exams/new"><i class="fas fa-plus"></i> Добавить новый экзамен</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/exams/new"><i class="fas fa-plus"></i> Добавить новый экзамен</a>
+<button (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="filter-container">
+  
   <label>Тип:</label>
   <input [(ngModel)]="filterType" name="typeOfExams" />
 
@@ -21,8 +23,10 @@
     <div><strong>Результат:</strong> {{ exam.result }}</div>
     <div><strong>Дата:</strong> {{ exam.date }}</div>
     <div><strong>Студент:</strong> {{ exam.studentId }}</div>
-
-    <button (click)="deleteExam(exam.id)"><i class="fas fa-trash"></i> Удалить</button>
-    <button (click)="editExam(exam.id)"><i class="fas fa-edit"></i> Редактировать</button>
+    <div *ngIf="!exam.studentId">
+      <div>Нет студента</div>
+    </div>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="deleteExam(exam.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="editExam(exam.id)"><i class="fas fa-edit"></i> Редактировать</button>
   </li>
 </div>

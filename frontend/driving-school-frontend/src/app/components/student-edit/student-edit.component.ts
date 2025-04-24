@@ -72,15 +72,19 @@ export class StudentEditComponent implements OnInit {
     });
   }
   filterAvailableExams(): void {
+    const uesdExamIds = this.student.exams.map(l => l.id);
     this.availableExams = this.availableExams.filter(
-      (exam) => !exam.studentId
+      exam => !exam.studentId && !uesdExamIds.includes(exam.id)
     );
   }
 
   addExam(): void {
     if (this.selectedExam) {
       this.student.exams.push(this.selectedExam);
-      this.filterAvailableExams();
+      this.availableExams = this.availableExams.filter(l => l.id !== this.selectedExam!.id);
+
+      this.selectedExam = null;
+
     }
   }
   loadLessons(): void {
@@ -91,15 +95,17 @@ export class StudentEditComponent implements OnInit {
   }
   
   filterAvailableLessons(): void {
+    const usedLessonIds = this.student.lessons.map(l => l.id);
     this.availableLessons = this.availableLessons.filter(
-      (lesson) => !lesson.studentId
+      (lesson) => !lesson.studentId && !usedLessonIds.includes(lesson.id)
     );
   }
   
   addLesson(): void {
     if (this.selectedLesson) {
       this.student.lessons.push(this.selectedLesson);
-      this.filterAvailableLessons();
+      this.availableLessons = this.availableLessons.filter(l => l.id !== this.selectedLesson!.id);
+      this.selectedLesson = null;
     }
   }
   removeExam(examId: number): void {

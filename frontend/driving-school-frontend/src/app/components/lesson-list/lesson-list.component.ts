@@ -4,18 +4,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { LessonService } from '../../services/lesson.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-lesson-list',
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './lesson-list.component.html',
-  styleUrl: './lesson-list.component.css'
+  styleUrl: './lesson-list.component.css',
 })
 export class LessonListComponent implements OnInit {
   lessons: Lesson[] = [];
   constructor(
     private lessonService: LessonService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -36,5 +38,20 @@ export class LessonListComponent implements OnInit {
 
   editLesson(id: number): void {
     this.router.navigate([`/lessons`, id]);
+  }
+  hasRole(role: string): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === role;
+  }
+  logout() {
+    this.http
+      .post('http://localhost:8080/logout', {}, { withCredentials: true })
+      .subscribe(() => {
+        localStorage.removeItem('role');
+        this.router.navigate(['/login']);
+      });
+  }
+  goHome(): void {
+    this.router.navigate(['/home']);
   }
 }

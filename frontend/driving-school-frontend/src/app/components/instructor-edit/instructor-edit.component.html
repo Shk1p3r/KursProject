@@ -8,7 +8,8 @@
   <input [(ngModel)]="instructor.seniority" name="seniority" type="number" required />
 
   <label>Добавить урок:</label>
-  <select [(ngModel)]="selectedLesson" name="lesson">
+  <select [(ngModel)]="selectedLesson" name="selectedLesson">
+    <option [ngValue]="null">Выберите урок</option>
     <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
       {{ lesson.id }} ({{ lesson.startDate }} – {{ lesson.endDate }})
     </option>

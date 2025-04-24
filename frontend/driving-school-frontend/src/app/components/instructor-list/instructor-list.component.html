@@ -1,6 +1,7 @@
 <h2>Список инструкторов</h2>
-<a routerLink="/instructors/new"><i class="fas fa-plus"></i> Добавить нового инструктора</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/instructors/new"><i class="fas fa-plus"></i> Добавить нового инструктора</a>
+<button (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="list-container">
   <li *ngFor="let instructor of instructors" class="list-item">
     <div><strong>ФИО:</strong> {{ instructor.fio }}</div>
@@ -17,7 +18,7 @@
       <div>Нет уроков</div>
     </div>
 
-    <button (click)="deleteInstructor(instructor.id)"><i class="fas fa-trash"></i> Удалить</button>
-    <button (click)="editInstructor(instructor.id)"><i class="fas fa-edit"></i> Редактировать</button>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="deleteInstructor(instructor.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button *ngIf="hasRole('DIRECTOR') || hasRole('INSTRUCTOR')" (click)="editInstructor(instructor.id)"><i class="fas fa-edit"></i> Редактировать</button>
   </li>
 </div>

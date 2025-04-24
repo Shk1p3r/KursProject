@@ -1,0 +1,10 @@
+<h2>Автошкола</h2>
+<button class="button" (click)="logout()">Выйти</button>
+<div class="grid">
+  <a *ngIf="hasRole('DIRECTOR', 'INSTRUCTOR')" routerLink="/cars" class="tile"> Машины</a>
+  <a *ngIf="hasRole('DIRECTOR', 'INSTRUCTOR')" routerLink="/instructors" class="tile"> Инструкторы</a>
+  <a *ngIf="hasRole('DIRECTOR', 'INSTRUCTOR', 'STUDENT')" routerLink="/students" class="tile"> Студенты</a>
+  <a *ngIf="hasRole('DIRECTOR')" routerLink="/lessons" class="tile"> Уроки</a>
+  <a *ngIf="hasRole('DIRECTOR')" routerLink="/exams" class="tile"> Экзамены</a>
+  <a *ngIf="hasRole('DIRECTOR')" routerLink="/categories" class="tile"> Категории</a>
+</div>

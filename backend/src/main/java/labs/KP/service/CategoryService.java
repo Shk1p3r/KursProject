@@ -42,24 +42,19 @@ public class CategoryService {
     }
 
     public CategoryPojo update(CategoryPojo pojo) {
-        // Получаем текущую категорию
         Category category = categoryRepository.findById(pojo.getName()).orElse(null);
         if (category == null) {
             return null;
         }
     
-        // Обновляем базовые поля
         category.setName(pojo.getName());
     
-        // Получаем список ID инструкторов из pojo
         List<Integer> newInstructorIds = new ArrayList<>();
         if (pojo.getInstructors() != null) {
             for (InstructorPojo ip : pojo.getInstructors()) {
                 newInstructorIds.add(ip.getId());
             }
         }
-    
-        // Обрабатываем текущих инструкторов категории: отвязываем тех, кто исключён
         List<Instructor> instructorsToUnlink = new ArrayList<>();
         for (Instructor instructor : category.getInstructors()) {
             if (!newInstructorIds.contains(instructor.getId())) {
@@ -68,8 +63,6 @@ public class CategoryService {
             }
         }
         instructorRepository.saveAll(instructorsToUnlink);
-    
-        // Привязываем новых инструкторов
         List<Instructor> updatedInstructors = new ArrayList<>();
         for (Integer instructorId : newInstructorIds) {
             Instructor instructor = instructorRepository.findById(instructorId).orElse(null);
@@ -79,13 +72,8 @@ public class CategoryService {
                 updatedInstructors.add(instructor);
             }
         }
-    
-        // Обновляем список в самой категории
         category.setInstructors(updatedInstructors);
-    
-        // Сохраняем категорию
         Category saved = categoryRepository.save(category);
-    
         return CategoryPojo.fromEntity(saved);
     }
 

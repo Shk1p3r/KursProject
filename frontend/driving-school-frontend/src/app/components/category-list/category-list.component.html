@@ -1,6 +1,7 @@
 <h2>Список категорий</h2>
-<a routerLink="/categories/new"><i class="fas fa-plus"></i> Добавить новую категорию</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/categories/new"><i class="fas fa-plus"></i> Добавить новую категорию</a>
+<button  (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="filter-container">
   <label>Название:</label>
   <input [(ngModel)]="filterName" name="name" />
@@ -17,7 +18,10 @@
         ID: {{ instructor.id }}, ФИО: {{ instructor.fio }}, Стаж: {{ instructor.seniority }} лет
       </li>
     </ul>
-    <button (click)="editCategory(category.name)"><i class="fas fa-edit"></i> Редактировать</button>
-    <button (click)="deleteCategory(category.name)"><i class="fas fa-trash"></i> Удалить</button>
+    <div *ngIf="!category.instructors || category.instructors.length === 0">
+      <div>Нет инструкторов</div>
+    </div>
+    <button *ngIf="hasRole('DIRECTOR') || hasRole('INSTRUCTOR')" (click)="editCategory(category.name)"><i class="fas fa-edit"></i> Редактировать</button>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="deleteCategory(category.name)"><i class="fas fa-trash"></i> Удалить</button>
   </li>
 </div>

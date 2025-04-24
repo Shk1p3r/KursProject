@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Exam } from '../../interfaces/exam';
 import { ExamService } from '../../services/exam.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-exam-list',
@@ -16,7 +17,7 @@ export class ExamListComponent {
   filterDate = '';
   filterType = '';
   filterResult = '';
-  constructor(private examService: ExamService, private router: Router) {}
+  constructor(private examService: ExamService, private router: Router, private http: HttpClient) {}
   ngOnInit() {
     this.loadExams();
   }
@@ -41,5 +42,18 @@ export class ExamListComponent {
   }
   editExam(id: number) {
     this.router.navigate(['/exams', id]);
+  }
+  hasRole(role: string): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === role;
+  }
+  logout() {
+    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+      localStorage.removeItem('role'); 
+      this.router.navigate(['/login']);
+    });
+  }
+  goHome(): void {
+    this.router.navigate(['/home']);
   }
 }

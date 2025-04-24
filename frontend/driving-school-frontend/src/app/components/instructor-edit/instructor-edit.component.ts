@@ -52,15 +52,16 @@ export class InstructorEditComponent implements OnInit {
     });
   }
   filterAvailableLessons() {
+    const usedLessonIds = this.instructor.lessons.map(l => l.id);
     this.availableLessons = this.allLessons.filter(lesson =>
-      lesson.instructorId == null
+       !usedLessonIds.includes(lesson.id) && !lesson.instructorId
     );
   }
   addLesson() {
     if (this.selectedLesson) {
       this.instructor.lessons.push(this.selectedLesson);
+      this.availableLessons = this.availableLessons.filter(l => l.id !== this.selectedLesson!.id);
       this.selectedLesson = null;
-      this.filterAvailableLessons();
     }
   }
   

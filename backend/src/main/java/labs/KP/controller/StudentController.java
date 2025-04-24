@@ -13,6 +13,7 @@ import labs.KP.service.StudentService;
 
 @RestController
 @RequestMapping("/api/students")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class StudentController {
     @Autowired
     private StudentService studentService;

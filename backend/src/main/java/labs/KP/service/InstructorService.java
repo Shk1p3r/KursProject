@@ -2,6 +2,8 @@ package labs.KP.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +34,11 @@ public class InstructorService {
         instructor.setFio(pojo.getFio());
         instructor.setSeniority(pojo.getSeniority());
 
-        // Устанавливаем категорию
         if (pojo.getCategory() != null) {
             Category category = categoryRepository.findById(pojo.getCategory()).orElse(null);
             instructor.setCategory(category);
         }
 
-        // Привязываем существующие уроки
         List<Lesson> lessons = new ArrayList<>();
         if (pojo.getLessons() != null && !pojo.getLessons().isEmpty()) {
             for (LessonPojo lessonPojo : pojo.getLessons()) {
@@ -79,20 +79,17 @@ public class InstructorService {
         existing.setFio(pojo.getFio() != null ? pojo.getFio() : existing.getFio());
         existing.setSeniority(pojo.getSeniority() != 0 ? pojo.getSeniority() : existing.getSeniority());
 
-        // Очистка существующих уроков
         for (Lesson lesson : existing.getLessons()) {
             lesson.setInstructor(null);
         }
         existing.getLessons().clear();
 
-        // Привязка новых уроков
         if (pojo.getLessons() != null && !pojo.getLessons().isEmpty()) {
             List<Lesson> lessons = new ArrayList<>();
             for (LessonPojo lessonPojo : pojo.getLessons()) {
                 Lesson lesson = lessonRepository.findById(lessonPojo.getId()).orElse(null);
                 if (lesson != null) {
                     lesson.setInstructor(existing);
-                    // Обновляем поля урока из LessonPojo
                     lesson.setStartDate(lessonPojo.getStartDate());
                     lesson.setEndDate(lessonPojo.getEndDate());
                     if (lessonPojo.getCarId() != null && lessonPojo.getCarId() != 0) {
@@ -111,9 +108,18 @@ public class InstructorService {
     }
     
     @Transactional
-    public void deleteById(Integer id) {
+public void deleteById(Integer id) {
+    Optional<Instructor> instructorOptional = instructorRepository.findById(id);
+    if (instructorOptional.isPresent()) {
+        Instructor instructor = instructorOptional.get();
+        
+        for (Lesson lesson : instructor.getLessons()) {
+            lesson.setInstructor(null);  
+            lessonRepository.save(lesson); 
+        }
         instructorRepository.deleteById(id);
     }
+}
 
     public List<InstructorPojo> search(String fio, Integer seniority) {
         List<Instructor> instructors = instructorRepository.searchInstructors(fio, seniority);

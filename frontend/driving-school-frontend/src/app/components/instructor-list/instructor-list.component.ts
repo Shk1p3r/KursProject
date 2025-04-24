@@ -17,7 +17,7 @@ export class InstructorListComponent {
   instructors: Instructor[] = [];
   filterFio: string = '';
   filterSeniority: number | null = null;
-  constructor(private instructorService: InstructorService,  private router: Router) {}
+  constructor(private instructorService: InstructorService,  private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.loadInstructors();
@@ -45,5 +45,18 @@ export class InstructorListComponent {
   }
   editInstructor(id: number) {
     this.router.navigate(['/instructors', id]);
+  }
+  hasRole(role: string): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === role;
+  }
+  logout() {
+    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+      localStorage.removeItem('role');
+      this.router.navigate(['/login']);
+    });
+  }
+  goHome(): void {
+    this.router.navigate(['/home']);
   }
 }

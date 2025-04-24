@@ -1,11 +1,17 @@
 <h2>{{ isNew ? 'Создание категории' : 'Редактирование категории' }}</h2>
 
 <form (ngSubmit)="saveCategory()">
-  <label>Название: {{category.name}}</label>
+  <label>Название:</label>
   
+  <input *ngIf="isNew; else displayCategoryName" [(ngModel)]="category.name" name="name" required />
+
+  <ng-template #displayCategoryName>
+    <input [value]="category.name" disabled />
+  </ng-template>
 
   <label>Выберите инструктора:</label>
-  <select [(ngModel)]="selectedInstructor" name="instructor">
+  <select [(ngModel)]="selectedInstructor" name="selectedInstructor">
+    <option [ngValue]="null">Выберите инструктора</option>
     <option *ngFor="let instructor of availableInstructors" [ngValue]="instructor">
       {{ instructor.fio }} (стаж: {{ instructor.seniority }} лет)
     </option>

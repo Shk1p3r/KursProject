@@ -14,28 +14,28 @@
 
   <label>Номерной знак:</label>
   <input [(ngModel)]="car.licensePlateNumber" name="plate" required />
+  <label>Добавить урок:</label>
+  <select [(ngModel)]="selectedLesson" name="selectedLesson">
+    <option [ngValue]="null">Выберите урок</option>
+    <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
+      {{ lesson.id }}: {{ lesson.startDate }} - {{ lesson.endDate }}
+    </option>
+  </select>
+  <button type="button" (click)="addLesson()" [disabled]="!selectedLesson">
+    <i class="fas fa-plus"></i> Добавить
+  </button>
 
+  
   <div>
-    <label>Уроки:</label>
-    <ul *ngIf="car.lessons.length > 0">
-      <li *ngFor="let lesson of car.lessons">
+    <label>Закреплённые уроки:</label>
+      <div *ngFor="let lesson of car.lessons" class="nested-item">
         <div>
-          {{lesson.id}} – {{ lesson.startDate }} - {{ lesson.endDate }}
+          Урок №{{ lesson.id }}: {{ lesson.startDate }} - {{ lesson.endDate }}
           <button type="button" (click)="removeLesson(lesson.id)">
             <i class="fas fa-trash"></i> Удалить
           </button>
         </div>
-      </li>
-    </ul>
-    <select [(ngModel)]="selectedLesson" name="selectedLesson">
-      <option [ngValue]="null">Выберите урок</option>
-      <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
-        {{ lesson.id }}: {{ lesson.startDate }} - {{ lesson.endDate }}
-      </option>
-    </select>
-    <button type="button" (click)="addLesson()" [disabled]="!selectedLesson">
-      <i class="fas fa-plus"></i> Добавить
-    </button>
+      </div>
   </div>
 
   <div class="form-actions">

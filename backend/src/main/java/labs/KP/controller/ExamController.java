@@ -13,6 +13,7 @@ import labs.KP.service.ExamService;
 
 @RestController
 @RequestMapping("/api/exams")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class ExamController {
     @Autowired
     private ExamService examService;

@@ -4,6 +4,7 @@ import { CarService } from '../../services/car.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-car-list',
@@ -17,7 +18,7 @@ export class CarListComponent implements OnInit{
   filterModel = '';
   filterYear: number | null = null;
   filterPlate = '';
-  constructor(private carService: CarService, private router: Router) {}
+  constructor(private carService: CarService, private router: Router, private http: HttpClient) {}
   ngOnInit() {
     this.loadCars();
   }
@@ -43,5 +44,18 @@ export class CarListComponent implements OnInit{
   }
   editCar(id: number) {
     this.router.navigate(['/cars', id]);
+  }
+  hasRole(role: string): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === role;
+  }
+  logout() {
+    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+      localStorage.removeItem('role');
+      this.router.navigate(['/login']);
+    });
+  }
+  goHome(): void {
+    this.router.navigate(['/home']);
   }
 }

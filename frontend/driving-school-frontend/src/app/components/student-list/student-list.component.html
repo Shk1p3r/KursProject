@@ -1,6 +1,7 @@
 <h2>Список студентов</h2>
-<a routerLink="/students/new"><i class="fas fa-plus"></i> Добавить нового студента</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/students/new"><i class="fas fa-plus"></i> Добавить нового студента</a>
+<button  (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="filter-container">
   <label>ФИО:</label>
   <input [(ngModel)]="filterFio" name="fio" />
@@ -25,13 +26,17 @@
     <div *ngFor="let exam of student.exams" class="nested-item">
       {{ exam.date }} - {{ exam.typeOfExams }} - {{ exam.result }}
     </div>
-
+    <div *ngIf="!student.exams || student.exams.length === 0">
+      <div>Нет экзаменов</div>
+    </div>
     <div><strong>Уроки:</strong></div>
     <div *ngFor="let lesson of student.lessons" class="nested-item">
       {{ lesson.startDate }} - {{ lesson.endDate }}
     </div>
-
-    <button (click)="deleteStudent(student.id)"><i class="fas fa-trash"></i> Удалить</button>
-    <button (click)="editStudent(student.id)"><i class="fas fa-edit"></i> Редактировать</button>
+    <div *ngIf="!student.lessons || student.lessons.length === 0">
+      <div>Нет уроков</div>
+    </div>
+    <button *ngIf="hasRole('DIRECTOR') " (click)="deleteStudent(student.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button *ngIf="hasRole('DIRECTOR') || hasRole('INSTRUCTOR')" (click)="editStudent(student.id)"><i class="fas fa-edit"></i> Редактировать</button>
   </li>
 </div>

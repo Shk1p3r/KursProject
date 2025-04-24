@@ -12,6 +12,7 @@ import labs.KP.service.CarService;
 
 @RestController
 @RequestMapping("/api/cars")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class CarController {
     @Autowired
     private CarService carService;

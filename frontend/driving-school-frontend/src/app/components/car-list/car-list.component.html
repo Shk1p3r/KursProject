@@ -1,6 +1,7 @@
 <h2>Список автомобилей</h2>
-<a routerLink="/cars/new"><i class="fas fa-plus"></i> Добавить новый автомобиль</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/cars/new"><i class="fas fa-plus"></i> Добавить новый автомобиль</a>
+<button (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="filter-container">
   <label>Марка:</label>
   <input [(ngModel)]="filterMark" name="mark" />
@@ -31,7 +32,7 @@
     <div *ngIf="!car.lessons || car.lessons.length === 0">
       <div>Нет уроков</div>
     </div>
-    <button (click)="deleteCar(car.id)"><i class="fas fa-trash"></i> Удалить</button>
-    <button (click)="editCar(car.id)"><i class="fas fa-edit"></i> Редактировать</button>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="deleteCar(car.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button *ngIf="hasRole('DIRECTOR') || hasRole('INSTRUCTOR')" (click)="editCar(car.id)"><i class="fas fa-edit"></i> Редактировать</button>
   </li>
 </div>

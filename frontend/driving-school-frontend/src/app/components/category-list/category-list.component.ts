@@ -4,6 +4,7 @@ import { CategoryService } from '../../services/category.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-category-list',
@@ -15,7 +16,7 @@ export class CategoryListComponent implements OnInit{
   categories: Category[] = [];
   filterName = '';
 
-  constructor(private categoryService: CategoryService, private router: Router) {}
+  constructor(private categoryService: CategoryService, private router: Router, private http: HttpClient) {}
   ngOnInit(): void {
     this.loadCategories();
   }
@@ -39,5 +40,17 @@ export class CategoryListComponent implements OnInit{
   editCategory(name: string) {
     this.router.navigate(['/categories', name]);
   }
-
+  hasRole(role: string): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === role;
+  }
+  logout() {
+    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+      localStorage.removeItem('role'); 
+      this.router.navigate(['/login']);
+    });
+  }
+  goHome(): void {
+    this.router.navigate(['/home']);
+  }
 }

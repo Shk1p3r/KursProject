@@ -11,25 +11,36 @@ import { LessonListComponent } from './components/lesson-list/lesson-list.compon
 import { LessonEditComponent } from './components/lesson-edit/lesson-edit.component';
 import { InstructorListComponent } from './components/instructor-list/instructor-list.component';
 import { InstructorEditComponent } from './components/instructor-edit/instructor-edit.component';
+import { Auth } from './auth';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
-    { path: 'cars', component: CarListComponent },
-    { path: 'cars/new', component: CarEditComponent },
-    { path: 'cars/:id', component: CarEditComponent },
-    { path: 'categories', component: CategoryListComponent },
-    { path: 'categories/new', component: CategoryEditComponent },
-    { path: 'categories/:name', component: CategoryEditComponent },
-    { path: 'exams', component: ExamListComponent },
-    { path: 'exams/new', component: ExamEditComponent },
-    { path: 'exams/:id', component: ExamEditComponent },
-    { path: 'students', component: StudentListComponent },
-    { path: 'students/new', component: StudentEditComponent },
-    { path: 'students/:id', component: StudentEditComponent },
-    { path: 'lessons', component: LessonListComponent },
-    { path: 'lessons/new', component: LessonEditComponent },
-    { path: 'lessons/:id', component: LessonEditComponent },
-    { path: 'instructors', component: InstructorListComponent },
-    { path: 'instructors/new', component: InstructorEditComponent },
-    { path: 'instructors/:id', component: InstructorEditComponent },
-    { path: '', redirectTo: 'cars', pathMatch: 'full' }
+    { path: 'login', component: LoginComponent },
+    { path: 'home', component: HomeComponent, canActivate: [Auth] },
+    { path: 'cars', component: CarListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: 'cars/new', component: CarEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: 'cars/:id', component: CarEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+  
+    { path: 'categories', component: CategoryListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'categories/new', component: CategoryEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'categories/:name', component: CategoryEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+  
+    { path: 'exams', component: ExamListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'exams/new', component: ExamEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'exams/:id', component: ExamEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+  
+    { path: 'students', component: StudentListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR', 'STUDENT'] }},
+    { path: 'students/new', component: StudentEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: 'students/:id', component: StudentEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+  
+    { path: 'lessons', component: LessonListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'lessons/new', component: LessonEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+    { path: 'lessons/:id', component: LessonEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR'] }},
+  
+    { path: 'instructors', component: InstructorListComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: 'instructors/new', component: InstructorEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: 'instructors/:id', component: InstructorEditComponent, canActivate: [Auth], data: { roles: ['DIRECTOR', 'INSTRUCTOR'] }},
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
+    { path: '**', redirectTo: 'login' }
 ];

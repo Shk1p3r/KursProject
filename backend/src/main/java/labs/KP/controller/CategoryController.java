@@ -12,6 +12,7 @@ import labs.KP.service.CategoryService;
 
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class CategoryController {
     @Autowired
     private CategoryService categoryService;

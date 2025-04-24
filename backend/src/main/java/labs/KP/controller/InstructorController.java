@@ -12,6 +12,7 @@ import labs.KP.service.InstructorService;
 
 @RestController
 @RequestMapping("/api/instructors")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 public class InstructorController {
     @Autowired
     private InstructorService instructorService;

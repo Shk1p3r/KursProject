@@ -14,7 +14,8 @@
   <input [(ngModel)]="student.groupNumber" name="groupNumber" required />
 
   <label>Выберите экзамен:</label>
-  <select [(ngModel)]="selectedExam" name="exam">
+  <select [(ngModel)]="selectedExam" name="selectedExam">
+    <option [ngValue]="null">Выберите экзамен</option>
     <option *ngFor="let exam of availableExams" [ngValue]="exam">
       {{ exam.date }} - {{ exam.typeOfExams }}
     </option>
@@ -32,7 +33,8 @@
   </div>
 
   <label>Выберите урок:</label>
-  <select [(ngModel)]="selectedLesson" name="lesson">
+  <select [(ngModel)]="selectedLesson" name="selectedLesson">
+    <option [ngValue]="null">Выберите урок</option>
     <option *ngFor="let lesson of availableLessons" [ngValue]="lesson">
       {{ lesson.startDate }} - {{ lesson.endDate }}
     </option>

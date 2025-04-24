@@ -1,16 +1,17 @@
 <h2>Список уроков</h2>
-<a routerLink="/lessons/new"><i class="fas fa-plus"></i> Добавить новый урок</a>
-
+<a *ngIf="hasRole('DIRECTOR')" routerLink="/lessons/new"><i class="fas fa-plus"></i> Добавить новый урок</a>
+<button (click)="logout()">Выйти</button>
+<button (click)="goHome()">На главную</button>
 <div class="list-container">
   <li *ngFor="let lesson of lessons" class="list-item">
     <div>
       <strong>Урок № {{ lesson.id }}</strong>: {{ lesson.startDate }} - {{ lesson.endDate }}
       <br>
-      <span>{{ lesson.carId ? '🚗 Автомобиль привязан' : '🚫 Автомобиль не привязан' }}</span>,
-      <span>{{ lesson.instructorId ? '👨‍🏫 Инструктор привязан' : '🚫 Инструктор не привязан' }}</span>,
-      <span>{{ lesson.studentId ? '🎓 Студент привязан' : '🚫 Студент не привязан' }}</span>
+      <span>{{ lesson.carId ? 'Автомобиль привязан' : 'Автомобиль не привязан' }}</span>,
+      <span>{{ lesson.instructorId ? 'Инструктор привязан' : 'Инструктор не привязан' }}</span>,
+      <span>{{ lesson.studentId ? 'Студент привязан' : 'Студент не привязан' }}</span>
     </div>
-    <button (click)="editLesson(lesson.id)"><i class="fas fa-edit"></i> Редактировать</button>
-    <button (click)="deleteLesson(lesson.id)"><i class="fas fa-trash"></i> Удалить</button>
+    <button *ngIf="hasRole('DIRECTOR') || hasRole('INSTRUCTOR')" (click)="editLesson(lesson.id)"><i class="fas fa-edit"></i> Редактировать</button>
+    <button *ngIf="hasRole('DIRECTOR')" (click)="deleteLesson(lesson.id)"><i class="fas fa-trash"></i> Удалить</button>
   </li>
 </div>
