@@ -69,7 +69,7 @@ export class StudentListComponent {
     return userRole === role;
   }
   logout() {
-    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+    this.http.post('/logout', {}, { withCredentials: true }).subscribe(() => {
       localStorage.removeItem('role');
       this.router.navigate(['/login']);
     });

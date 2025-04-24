@@ -17,12 +17,13 @@ export class LoginComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(): void {
-    const body = new URLSearchParams();
-    body.set('username', this.username);
-    body.set('password', this.password);
+    const body = {
+      username: this.username,
+      password: this.password
+    };
   
-    this.http.post('/api/login', body.toString(), {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    this.http.post('/api/login', body, {
+      headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
       observe: 'response'
     }).subscribe({
@@ -44,7 +45,7 @@ export class LoginComponent {
     });
   }
   logout() {
-    this.http.post('http://localhost:8080/logout', {}, { withCredentials: true }).subscribe(() => {
+    this.http.post('/logout', {}, { withCredentials: true }).subscribe(() => {
       localStorage.removeItem('role');
       this.router.navigate(['/login']);
     });

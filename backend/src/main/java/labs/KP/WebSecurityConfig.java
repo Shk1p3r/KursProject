@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -78,25 +81,35 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/", "/home", "/api/login", "/api/me").permitAll()
+                .requestMatchers("/", "/index.html", "/favicon.ico", "/**/*.js", "/**/*.css", "/**/*.png", "/**/*.jpg",
+                        "/**/*.svg", "/**/*.woff2", "/login")
+                .permitAll()
+                .requestMatchers("/api/login", "/api/me").permitAll()
                 .requestMatchers("/students/**").hasAnyRole("DIRECTOR", "INSTRUCTOR", "STUDENT")
                 .requestMatchers("/cars/**").hasAnyRole("DIRECTOR", "INSTRUCTOR")
                 .requestMatchers("/instructors/**").hasAnyRole("DIRECTOR", "INSTRUCTOR")
                 .requestMatchers("/categories/**", "/exams/**", "/lessons/**").hasRole("DIRECTOR")
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginProcessingUrl("/api/login")
-                .defaultSuccessUrl("/api/me", true)
-                .permitAll()
-                .and()
+                .formLogin().disable()
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .deleteCookies("JSESSIONID")
+                        .addLogoutHandler((request, response, authentication) -> {
+                            if (authentication != null) {
+                                new SecurityContextLogoutHandler().logout(request, response, authentication);
+                            }
+                        })
                         .logoutSuccessHandler((request, response, authentication) -> {
                             response.setStatus(HttpServletResponse.SC_OK);
                         })
                         .permitAll());
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 }

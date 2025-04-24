@@ -45,7 +45,7 @@ export class LessonListComponent implements OnInit {
   }
   logout() {
     this.http
-      .post('http://localhost:8080/logout', {}, { withCredentials: true })
+      .post('/logout', {}, { withCredentials: true })
       .subscribe(() => {
         localStorage.removeItem('role');
         this.router.navigate(['/login']);
