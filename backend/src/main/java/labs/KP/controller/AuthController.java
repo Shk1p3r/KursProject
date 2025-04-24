@@ -33,22 +33,17 @@ public class AuthController {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(), loginRequest.getPassword()));
-
-            // Установим авторизацию
             SecurityContextHolder.getContext().setAuthentication(auth);
-
-            // 💾 ОБЯЗАТЕЛЬНО: создать HTTP-сессию вручную
-            HttpSession session = request.getSession(true); // создаёт сессию
+            HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
 
             String role = auth.getAuthorities().stream()
                     .findFirst()
                     .map(a -> a.getAuthority().replace("ROLE_", ""))
                     .orElse("UNKNOWN");
-
             return Map.of("role", role);
         } catch (BadCredentialsException e) {
-            throw new RuntimeException("Invalid credentials");
+            throw new RuntimeException("Error");
         }
     }
 
